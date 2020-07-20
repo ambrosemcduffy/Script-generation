@@ -55,5 +55,6 @@ def get_batches(arr, batch_size, seq_length):
             y[:, :-1], y[:, -1] = x[:, 1:], arr[:, 0]
         yield x, y
 
+
 batches = get_batches(encoded, 128, 50)
 x, y = next(batches)

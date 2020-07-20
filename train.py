@@ -6,8 +6,9 @@ from helper import one_hot_encode, get_batches
 from model import Network
 
 
-
-def train(net, data, epochs=10, batch_size=10, seq_length=50, lr=0.001, clip=5, val_frac=0.7):
+def train(net, data, epochs=10, batch_size=10, seq_length=50, lr=0.001):
+    clip = 5
+    val_frac = 0.7
     print_every = 10
     opt = torch.optim.Adam(net.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
@@ -78,8 +79,12 @@ char2int = {ch: i for i, ch in int2char.items()}
 # char2int dictionary then coverting to array
 
 encoded = np.array([char2int[ch] for ch in text])
-net = Network(chars, n_hidden=1024, n_layers=3,
-                 drop_prob=0.5, lr=0.001)
+net = Network(chars,
+              n_hidden=1024,
+              n_layers=3,
+              drop_prob=0.5,
+              lr=0.001)
+
 batch_size = 128
 seq_length = 130
 n_epochs = 200
@@ -127,5 +132,6 @@ def sample(net, size, prime='The', top_k=None):
         char, h = predict(net, char[-1], h, top_k=top_k)
         chars.append(char)
     return ''.join(chars)
+
 
 print(sample(net, 2000, prime='the', top_k=5))
